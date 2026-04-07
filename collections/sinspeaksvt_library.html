@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sinspeaksvt - Library Archive</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Georgia, 'Times New Roman', serif; background: radial-gradient(circle at top, rgba(255,214,153,0.08), transparent 28%), linear-gradient(180deg, #120d08 0%, #1b140f 40%, #120d08 100%); color: #f6ead7; padding: 28px; }
+    .wrapper { max-width: 1600px; margin: 0 auto; }
+    .header { background: rgba(255,248,235,0.05); border: 1px solid rgba(255,235,210,0.08); border-radius: 24px; padding: 28px; margin-bottom: 30px; box-shadow: 0 18px 40px rgba(0,0,0,0.35); }
+    .title { font-size: 46px; font-weight: 900; margin-bottom: 10px; color: #ffe7bd; }
+    .subtitle { font-size: 18px; color: rgba(255,237,214,0.85); margin-bottom: 12px; }
+    .stats { font-size: 16px; color: rgba(255,237,214,0.9); }
+    .home-link { display: inline-block; margin-top: 14px; color: #f5c77f; text-decoration: none; font-weight: bold; }
+    .home-link:hover { text-decoration: underline; }
+    .shelf-block { margin-bottom: 36px; }
+    .shelf-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+    .shelf-title { font-size: 30px; font-weight: 900; color: #ffdca4; }
+    .shelf-progress { font-size: 15px; color: rgba(255,236,210,0.75); }
+    .shelf-frame { background: linear-gradient(180deg, #5a3922 0%, #3f2718 100%); border: 10px solid #6b4529; border-bottom-width: 16px; border-radius: 18px; padding: 20px 16px 26px 16px; box-shadow: inset 0 3px 0 rgba(255,220,170,0.08), 0 18px 34px rgba(0,0,0,0.34); position: relative; }
+    .shelf-frame::after { content: ''; position: absolute; left: 0; right: 0; bottom: -8px; height: 12px; background: linear-gradient(180deg, #2b1a10 0%, #120b07 100%); border-radius: 0 0 12px 12px; }
+    .book-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
+    .book { border-radius: 16px 16px 10px 10px; padding: 18px; min-height: 220px; background: linear-gradient(180deg, #3a2617 0%, #24180f 100%); border: 2px solid #7b5b3d; box-shadow: inset 0 1px 0 rgba(255,240,220,0.08), 0 10px 24px rgba(0,0,0,0.28); transition: transform 0.18s ease, box-shadow 0.18s ease; position: relative; overflow: hidden; }
+    a.book { display: block; text-decoration: none; color: inherit; }
+    a.book:hover { text-decoration: none; transform: translateY(-4px); box-shadow: inset 0 1px 0 rgba(255,240,220,0.08), 0 18px 34px rgba(0,0,0,0.38); }
+    .book::before { content: ''; position: absolute; top: 0; left: 14px; bottom: 0; width: 2px; background: rgba(255,240,220,0.12); }
+    .book::after { content: ''; position: absolute; left: 0; right: 0; top: 20px; height: 16px; background: rgba(255,240,220,0.08); box-shadow: 0 26px 0 rgba(255,240,220,0.05), 0 52px 0 rgba(255,240,220,0.04); }
+    .book.owned.horror  { background: linear-gradient(180deg, #4a161c 0%, #2b0e12 100%); border-color: #8f3d41; }
+    .book.owned.fantasy { background: linear-gradient(180deg, #234325 0%, #162817 100%); border-color: #4d7a4a; }
+    .book.owned.romance { background: linear-gradient(180deg, #6a2043 0%, #3e1227 100%); border-color: #a05277; }
+    .book.owned.scifi   { background: linear-gradient(180deg, #183a63 0%, #10253e 100%); border-color: #4d79a3; }
+    .book.owned.mystery { background: linear-gradient(180deg, #5c4b18 0%, #332a0d 100%); border-color: #9a8231; }
+    .book.unowned { background: linear-gradient(180deg, #201915 0%, #15110e 100%); border-color: #4e4037; opacity: 0.9; }
+    .status { display: inline-block; font-size: 12px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; border-radius: 999px; padding: 6px 10px; margin-bottom: 14px; position: relative; z-index: 1; }
+    .status.owned { background: rgba(133, 201, 116, 0.16); color: #b8f0ac; border: 1px solid rgba(133, 201, 116, 0.35); }
+    .status.unowned { background: rgba(180,180,180,0.08); color: #bcae9d; border: 1px solid rgba(180,180,180,0.18); }
+    .book-title { font-size: 24px; font-weight: 900; line-height: 1.1; margin-bottom: 14px; position: relative; z-index: 1; color: #fff1d3; }
+    .genre-tag { display: inline-block; font-size: 13px; font-weight: 700; border-radius: 999px; padding: 6px 10px; background: rgba(255,220,160,0.08); color: #f0cc92; border: 1px solid rgba(255,220,160,0.16); position: relative; z-index: 1; }
+    .footer-note { margin-top: 30px; color: rgba(255,232,204,0.62); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="title">📚 sinspeaksvt's Library Archive</div>
+      <div class="subtitle">A catalogue of collected books across every shelf</div>
+      <div class="stats">Owned: 8 / 30 books • Completion: 26.7%</div>
+      <a class="home-link" href="../index.html">← Back to archive home</a>
+    </div>
+    <div class="shelf-block">
+      <div class="shelf-head">
+        <div class="shelf-title">👻 Horror</div>
+        <div class="shelf-progress">4 / 10 collected</div>
+      </div>
+      <div class="shelf-frame">
+        <div class="book-grid">
+          <a class="book owned horror" href="https://www.google.com/search?q=Odd%20Thomas%20novel" target="_blank">
+            <div class="status owned">Collected</div>
+            <div class="book-title">Odd Thomas</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=The%20Taking%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">The Taking</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Pet%20Sematary%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Pet Sematary</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book owned horror" href="https://www.google.com/search?q=The%20Green%20Ribbon%20novel" target="_blank">
+            <div class="status owned">Collected</div>
+            <div class="book-title">The Green Ribbon</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book owned horror" href="https://www.google.com/search?q=Frankenstein%20novel" target="_blank">
+            <div class="status owned">Collected</div>
+            <div class="book-title">Frankenstein</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book owned horror" href="https://www.google.com/search?q=House%20of%20Leaves%20novel" target="_blank">
+            <div class="status owned">Collected</div>
+            <div class="book-title">House of Leaves</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=World%20War%20Z%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">World War Z</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=The%20Last%20Days%20of%20Jack%20Sparks%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">The Last Days of Jack Sparks</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Coraline%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Coraline</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Dark%20Harvest%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Dark Harvest</div>
+            <div class="genre-tag">Horror</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="shelf-block">
+      <div class="shelf-head">
+        <div class="shelf-title">🐉 Fantasy</div>
+        <div class="shelf-progress">1 / 5 collected</div>
+      </div>
+      <div class="shelf-frame">
+        <div class="book-grid">
+          <a class="book unowned" href="https://www.google.com/search?q=A%20Song%20of%20Ice%20and%20Fire%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">A Song of Ice and Fire</div>
+            <div class="genre-tag">Fantasy</div>
+          </a>
+          <a class="book owned fantasy" href="https://www.google.com/search?q=The%20Hobbit%20novel" target="_blank">
+            <div class="status owned">Collected</div>
+            <div class="book-title">The Hobbit</div>
+            <div class="genre-tag">Fantasy</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Eragon%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Eragon</div>
+            <div class="genre-tag">Fantasy</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Ranger%E2%80%99s%20Apprentice%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Ranger’s Apprentice</div>
+            <div class="genre-tag">Fantasy</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Trickster%E2%80%99s%20Choice%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Trickster’s Choice</div>
+            <div class="genre-tag">Fantasy</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="shelf-block">
+      <div class="shelf-head">
+        <div class="shelf-title">💖 Romance</div>
+        <div class="shelf-progress">1 / 5 collected</div>
+      </div>
+      <div class="shelf-frame">
+        <div class="book-grid">
+          <a class="book unowned" href="https://www.google.com/search?q=Pride%20and%20Prejudice%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Pride and Prejudice</div>
+            <div class="genre-tag">Romance</div>
+          </a>
+          <a class="book owned romance" href="https://www.google.com/search?q=The%20Fault%20in%20Our%20Stars%20novel" target="_blank">
+            <div class="status owned">Collected</div>
+            <div class="book-title">The Fault in Our Stars</div>
+            <div class="genre-tag">Romance</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=A%20Court%20of%20Thorns%20and%20Roses%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">A Court of Thorns and Roses</div>
+            <div class="genre-tag">Romance</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Twisted%20Love%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Twisted Love</div>
+            <div class="genre-tag">Romance</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=It%20Ends%20With%20Me%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">It Ends With Me</div>
+            <div class="genre-tag">Romance</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="shelf-block">
+      <div class="shelf-head">
+        <div class="shelf-title">🚀 Sci-Fi</div>
+        <div class="shelf-progress">0 / 5 collected</div>
+      </div>
+      <div class="shelf-frame">
+        <div class="book-grid">
+          <a class="book unowned" href="https://www.google.com/search?q=Dune%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Dune</div>
+            <div class="genre-tag">Sci-Fi</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Children%20of%20Time%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Children of Time</div>
+            <div class="genre-tag">Sci-Fi</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=The%20Ender%E2%80%99s%20Game%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">The Ender’s Game</div>
+            <div class="genre-tag">Sci-Fi</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Infinity%20Gate%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Infinity Gate</div>
+            <div class="genre-tag">Sci-Fi</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=To%20Sleep%20in%20a%20Sea%20of%20Stars%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">To Sleep in a Sea of Stars</div>
+            <div class="genre-tag">Sci-Fi</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="shelf-block">
+      <div class="shelf-head">
+        <div class="shelf-title">🔎 Mystery</div>
+        <div class="shelf-progress">2 / 5 collected</div>
+      </div>
+      <div class="shelf-frame">
+        <div class="book-grid">
+          <a class="book owned mystery" href="https://www.google.com/search?q=The%20Silent%20Patient%20novel" target="_blank">
+            <div class="status owned">Collected</div>
+            <div class="book-title">The Silent Patient</div>
+            <div class="genre-tag">Mystery</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=The%20Maltese%20Falcon%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">The Maltese Falcon</div>
+            <div class="genre-tag">Mystery</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=Icing%20on%20the%20Murder%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">Icing on the Murder</div>
+            <div class="genre-tag">Mystery</div>
+          </a>
+          <a class="book owned mystery" href="https://www.google.com/search?q=The%20Last%20Thing%20He%20Told%20Me%20novel" target="_blank">
+            <div class="status owned">Collected</div>
+            <div class="book-title">The Last Thing He Told Me</div>
+            <div class="genre-tag">Mystery</div>
+          </a>
+          <a class="book unowned" href="https://www.google.com/search?q=The%20Housemaid%E2%80%99s%20Secret%20novel" target="_blank">
+            <div class="status unowned">Missing</div>
+            <div class="book-title">The Housemaid’s Secret</div>
+            <div class="genre-tag">Mystery</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
