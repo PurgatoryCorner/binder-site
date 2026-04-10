@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EeveeScatterbug - Card Binder</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, sans-serif; background: linear-gradient(180deg, #12060a 0%, #1b0a12 100%); color: #ffeef2; padding: 24px; }
+    .wrapper { max-width: 1600px; margin: 0 auto; }
+    .header { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 24px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+    .title { font-size: 42px; font-weight: 900; margin-bottom: 10px; color: #ffe5ea; }
+    .subtitle { font-size: 18px; color: rgba(255,235,240,0.82); margin-bottom: 12px; }
+    .stats { font-size: 16px; color: rgba(255,235,240,0.88); }
+    .home-link { display: inline-block; margin-top: 14px; color: #ffb7c5; text-decoration: none; font-weight: bold; }
+    .home-link:hover { text-decoration: underline; }
+    .binder-list { display: flex; flex-direction: column; gap: 18px; }
+    .binder-row { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+    .binder-name { font-size: 24px; font-weight: 900; margin-bottom: 12px; }
+    .binder-name a { color: #ffeef2; text-decoration: none; }
+    .binder-name a:hover { text-decoration: underline; }
+    .binder-rarities { display: grid; grid-template-columns: repeat(4, minmax(180px, 1fr)); gap: 16px; }
+    .rarity-slot { border-radius: 16px; overflow: hidden; min-height: 300px; background: linear-gradient(180deg, #2a0d14 0%, #17070b 100%); border: 3px solid #666; box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+    .rarity-slot.locked { opacity: 0.35; filter: grayscale(100%); }
+    .rarity-slot.common { border-color: #cfcfcf; box-shadow: 0 0 18px rgba(207,207,207,0.18), 0 8px 24px rgba(0,0,0,0.3); }
+    .rarity-slot.rare { border-color: #a335ee; box-shadow: 0 0 22px rgba(163,53,238,0.24), 0 8px 24px rgba(0,0,0,0.3); }
+    .rarity-slot.epic { border-color: #ffd700; box-shadow: 0 0 20px rgba(255,215,0,0.22), 0 8px 24px rgba(0,0,0,0.3); }
+    .rarity-slot.legendary { border-color: #ff4a4a; box-shadow: 0 0 24px rgba(255,74,74,0.26), 0 8px 24px rgba(0,0,0,0.3); }
+    .rarity-art { height: 220px; background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; }
+    .rarity-art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,0,0,0.75) 0%, rgba(10,0,0,0.15) 35%, rgba(10,0,0,0.02) 60%); }
+    .rarity-art.missing { background: linear-gradient(135deg, #2b2225 0%, #171113 100%); display: flex; align-items: center; justify-content: center; color: rgba(255,230,235,0.28); font-size: 28px; font-weight: 900; letter-spacing: 1px; }
+    .rarity-info { padding: 14px 16px 18px 16px; position: relative; z-index: 2; }
+    .rarity-label { font-size: 15px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
+    .rarity-label.common { color: #f0f0f0; }
+    .rarity-label.rare { color: #d395ff; }
+    .rarity-label.epic { color: #ffd700; }
+    .rarity-label.legendary { color: #ff9898; }
+    .footer-note { margin-top: 28px; color: rgba(255,235,240,0.65); font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="title">🎴 EeveeScatterbug's Card Binder</div>
+      <div class="subtitle">SinSpeaksVT Community Collection</div>
+      <div class="stats">Owned: 2 / 16 cards • Completion: 12.5%</div>
+      <a class="home-link" href="../index.html">← Back to binder home</a>
+    </div>
+    <div class="binder-list">
+      <div class="binder-row">
+        <div class="binder-name"><a href="https://twitch.tv/Ducki3Momo" target="_blank">Ducki</a></div>
+        <div class="binder-rarities">
+          <div class="rarity-slot common owned">
+            <div class="rarity-art" style="background-image: url('../cards/Ducki3Momo - Common.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label common">Common</div>
+            </div>
+          </div>
+          <div class="rarity-slot rare locked">
+            <div class="rarity-art" style="background-image: url('../cards/Ducki3Momo - Rare.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label rare">Rare</div>
+            </div>
+          </div>
+          <div class="rarity-slot epic locked">
+            <div class="rarity-art" style="background-image: url('../cards/Ducki3Momo - Epic.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label epic">Epic</div>
+            </div>
+          </div>
+          <div class="rarity-slot legendary locked">
+            <div class="rarity-art" style="background-image: url('../cards/Ducki3Momo - Legendary.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label legendary">Legendary</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="binder-row">
+        <div class="binder-name"><a href="https://twitch.tv/EeveeScatterbug" target="_blank">Eevee</a></div>
+        <div class="binder-rarities">
+          <div class="rarity-slot common locked">
+            <div class="rarity-art" style="background-image: url('../cards/EeveeScatterbug - Common.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label common">Common</div>
+            </div>
+          </div>
+          <div class="rarity-slot rare locked">
+            <div class="rarity-art" style="background-image: url('../cards/EeveeScatterbug - Rare.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label rare">Rare</div>
+            </div>
+          </div>
+          <div class="rarity-slot epic locked">
+            <div class="rarity-art" style="background-image: url('../cards/EeveeScatterbug - Epic.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label epic">Epic</div>
+            </div>
+          </div>
+          <div class="rarity-slot legendary locked">
+            <div class="rarity-art" style="background-image: url('../cards/EeveeScatterbug - Legendary.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label legendary">Legendary</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="binder-row">
+        <div class="binder-name"><a href="https://twitch.tv/Rouge_Spy" target="_blank">Rouge</a></div>
+        <div class="binder-rarities">
+          <div class="rarity-slot common owned">
+            <div class="rarity-art" style="background-image: url('../cards/Rouge_Spy - Common.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label common">Common</div>
+            </div>
+          </div>
+          <div class="rarity-slot rare locked">
+            <div class="rarity-art" style="background-image: url('../cards/Rouge_Spy - Rare.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label rare">Rare</div>
+            </div>
+          </div>
+          <div class="rarity-slot epic locked">
+            <div class="rarity-art" style="background-image: url('../cards/Rouge_Spy - Epic.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label epic">Epic</div>
+            </div>
+          </div>
+          <div class="rarity-slot legendary locked">
+            <div class="rarity-art" style="background-image: url('../cards/Rouge_Spy - Legendary.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label legendary">Legendary</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="binder-row">
+        <div class="binder-name"><a href="https://twitch.tv/SinspeaksVT" target="_blank">Sin</a></div>
+        <div class="binder-rarities">
+          <div class="rarity-slot common locked">
+            <div class="rarity-art" style="background-image: url('../cards/SinspeaksVT - Common.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label common">Common</div>
+            </div>
+          </div>
+          <div class="rarity-slot rare locked">
+            <div class="rarity-art" style="background-image: url('../cards/SinspeaksVT - Rare.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label rare">Rare</div>
+            </div>
+          </div>
+          <div class="rarity-slot epic locked">
+            <div class="rarity-art" style="background-image: url('../cards/SinspeaksVT - Epic.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label epic">Epic</div>
+            </div>
+          </div>
+          <div class="rarity-slot legendary locked">
+            <div class="rarity-art" style="background-image: url('../cards/SinspeaksVT - Legendary.png');"></div>
+            <div class="rarity-info">
+              <div class="rarity-label legendary">Legendary</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-note">Exact rarity ownership is shown per card. Old highest-rarity collections are preserved by treating the old stored rarity as owned in the new system.</div>
+  </div>
+</body>
+</html>
+<body>
+  <div class="wrapper">
+    <div class="panel">
+      <h1>🎴 SinSpeaksVT Card Binder</h1>
+      <p>This site hosts generated collection pages for the community card gacha.</p>
+      <p>Latest generated binder for <strong>EeveeScatterbug</strong>:</p>
+      <a class="link" href="collections/eeveescatterbug.html">Open EeveeScatterbug's binder</a>
+    </div>
+  </div>
+</body>
+</html>
